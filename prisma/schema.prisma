@@ -1,0 +1,108 @@
+// Daily Revision App — Prisma Schema
+// Auth handled by Clerk; clerkId links Clerk user to DB user
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Level {
+  PRIMARY
+  HIGH_SCHOOL
+  INTERNATIONAL
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String?
+  level     Level?
+  grade     String?
+  onboarded Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  attempts  Attempt[]
+  progress  Progress[]
+  streak    Streak?
+  userUnits UserUnit[]
+}
+
+model Subject {
+  id    String @id @default(cuid())
+  name  String
+  units Unit[]
+}
+
+model Unit {
+  id        String @id @default(cuid())
+  subjectId String
+  title     String
+  grade     String // "Grade 6", "Form 3", etc.
+  level     Level
+
+  subject   Subject    @relation(fields: [subjectId], references: [id])
+  questions Question[]
+  progress  Progress[]
+  userUnits UserUnit[]
+}
+
+model Question {
+  id            String @id @default(cuid())
+  unitId        String
+  text          String
+  options       Json   // ["Option A", "Option B", "Option C", "Option D"]
+  correctAnswer String // "A" | "B" | "C" | "D"
+  explanation   String
+
+  unit     Unit      @relation(fields: [unitId], references: [id])
+  attempts Attempt[]
+}
+
+model Attempt {
+  id             String   @id @default(cuid())
+  userId         String
+  questionId     String
+  selectedAnswer String
+  isCorrect      Boolean
+  createdAt      DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id])
+}
+
+model Progress {
+  id                   String @id @default(cuid())
+  userId               String
+  unitId               String
+  totalAnswered        Int    @default(0)
+  correctAnswers       Int    @default(0)
+  completionPercentage Float  @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  unit Unit @relation(fields: [unitId], references: [id])
+
+  @@unique([userId, unitId])
+}
+
+model Streak {
+  userId         String    @id
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastActiveDate DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserUnit {
+  userId String
+  unitId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  unit Unit @relation(fields: [unitId], references: [id])
+
+  @@id([userId, unitId])
+}
