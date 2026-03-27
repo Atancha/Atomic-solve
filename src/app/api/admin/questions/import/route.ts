@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
   for (let i = 0; i < body.length; i++) {
     const parsed = itemSchema.safeParse(body[i])
     if (!parsed.success) {
-      failed.push({ index: i, reason: parsed.error.errors.map((e) => e.message).join(", ") })
+      failed.push({ index: i, reason: parsed.error.issues.map((e) => e.message).join(", ") })
       continue
     }
 
