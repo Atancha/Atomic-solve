@@ -15,12 +15,6 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect()
   }
 
-  // Redirect signed-in users away from root
-  const { userId } = await auth()
-  if (userId && req.nextUrl.pathname === '/') {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
-  }
-
   return NextResponse.next()
 })
 
