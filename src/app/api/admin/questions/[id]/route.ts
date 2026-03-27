@@ -34,7 +34,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     return NextResponse.json({ question })
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return NextResponse.json({ error: err.errors }, { status: 400 })
+      return NextResponse.json({ error: err.issues }, { status: 400 })
     }
     console.error("[PUT /api/admin/questions/:id]", err)
     return NextResponse.json({ error: "Failed to update question" }, { status: 500 })
