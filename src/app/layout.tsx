@@ -17,10 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
+    <html lang="en" className={`${inter.variable} antialiased dark`} suppressHydrationWarning>
       <body className={inter.className}>
         <ClerkProvider>
-          <ThemeProvider defaultTheme="system" storageKey="revision-ui-theme">
+          <ThemeProvider defaultTheme="dark" storageKey="revision-ui-theme">
             <SidebarConfigProvider>
               {children}
             </SidebarConfigProvider>
