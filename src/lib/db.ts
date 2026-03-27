@@ -1,9 +1,7 @@
 import "server-only"
 import { PrismaClient } from "@prisma/client"
-import { PrismaPg } from "@prisma/adapter-pg"
-import pg from "pg"
-
-const { Pool } = pg
+import { PrismaNeon } from "@prisma/adapter-neon"
+import { neon } from "@neondatabase/serverless"
 
 declare global {
   // eslint-disable-next-line no-var
@@ -13,18 +11,16 @@ declare global {
 function createClient(): PrismaClient {
   const connectionString = process.env.DATABASE_URL
   if (!connectionString) {
-    throw new Error("DATABASE_URL is not set. Check your .env file.")
+    throw new Error("DATABASE_URL is not set.")
   }
-  const pool = new Pool({ connectionString })
-  const adapter = new PrismaPg(pool)
+  const sql = neon(connectionString)
+  const adapter = new PrismaNeon(sql)
   return new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   })
 }
 
-// Proxy ensures createClient() is deferred until the first property access,
-// so process.env.DATABASE_URL is guaranteed to be loaded by Next.js beforehand.
 export const db = new Proxy({} as PrismaClient, {
   get(_target, prop: string | symbol) {
     if (!global._prisma) {

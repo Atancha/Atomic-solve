@@ -4,8 +4,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
   },
-  turbopack: {},
-
   // Image optimization
   images: {
     remotePatterns: [

@@ -1,4 +1,4 @@
-// Daily Revision App — Prisma Schema
+// Atomic Solve — Prisma Schema
 // Auth handled by Clerk; clerkId links Clerk user to DB user
 
 generator client {
