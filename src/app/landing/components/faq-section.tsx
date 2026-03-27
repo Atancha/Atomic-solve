@@ -17,7 +17,7 @@ const faqItems: FaqItem[] = [
     value: 'item-1',
     question: 'What grade levels are supported?',
     answer:
-      'Daily Revision covers three tracks: Primary (Grade 6, 7, and 10), High School (Form 3 and Form 4), and International (Grade 5, 6, 8, and 9). When you sign up you choose your level and grade, and all your questions are matched to your syllabus.',
+      'Atomic Solve covers three tracks: Primary (Grade 6, 7, and 10), High School (Form 3 and Form 4), and International (Grade 5, 6, 8, and 9). When you sign up you choose your level and grade, and all your questions are matched to your syllabus.',
   },
   {
     value: 'item-2',
@@ -33,9 +33,9 @@ const faqItems: FaqItem[] = [
   },
   {
     value: 'item-4',
-    question: 'What subjects does Daily Revision cover?',
+    question: 'What subjects does Atomic Solve cover?',
     answer:
-      'Currently Daily Revision focuses on Mathematics. Topics include fractions, algebra, geometry, number theory, statistics, trigonometry, calculus (for higher levels), and more — all matched to your specific grade.',
+      'Currently Atomic Solve focuses on Mathematics. Topics include fractions, algebra, geometry, number theory, statistics, trigonometry, calculus (for higher levels), and more — all matched to your specific grade.',
   },
   {
     value: 'item-5',
@@ -45,9 +45,9 @@ const faqItems: FaqItem[] = [
   },
   {
     value: 'item-6',
-    question: 'Is Daily Revision free?',
+    question: 'Is Atomic Solve free?',
     answer:
-      'Yes — Daily Revision is free to use. Sign up, complete your profile, and start answering questions straight away. No credit card required.',
+      'Yes — Atomic Solve is free to use. Sign up, complete your profile, and start answering questions straight away. No credit card required.',
   },
 ]
 

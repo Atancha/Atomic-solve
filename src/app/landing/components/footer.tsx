@@ -28,7 +28,7 @@ export function LandingFooter() {
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <Flame className="h-5 w-5" />
               </div>
-              <span className="font-bold text-lg">Daily Revision</span>
+              <span className="font-bold text-lg">Atomic Solve</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Improve your grades with small daily steps. Five questions a day, instant feedback, and progress you can see.
@@ -72,7 +72,7 @@ export function LandingFooter() {
             <Heart className="h-3.5 w-3.5 text-red-500 fill-current" />
             <span>for students everywhere</span>
           </div>
-          <span>© {new Date().getFullYear()} Daily Revision. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Atomic Solve. All rights reserved.</span>
         </div>
       </div>
     </footer>

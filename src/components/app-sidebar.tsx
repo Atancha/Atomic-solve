@@ -72,7 +72,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Logo size={24} className="text-current" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Daily Revision</span>
+                  <span className="truncate font-semibold">Atomic Solve</span>
                   <span className="truncate text-xs text-muted-foreground flex items-center gap-1">
                     <Flame className="h-3 w-3 text-orange-500" />
                     Build your streak

@@ -3,7 +3,7 @@ export function SiteFooter() {
     <footer className="border-t bg-background">
       <div className="px-4 py-4 lg:px-6">
         <p className="text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Daily Revision. All rights reserved.
+          © {new Date().getFullYear()} Atomic Solve. All rights reserved.
         </p>
       </div>
     </footer>

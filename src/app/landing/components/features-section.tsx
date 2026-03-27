@@ -72,7 +72,7 @@ export function FeaturesSection() {
             Everything a student needs to improve, nothing they don&apos;t
           </h2>
           <p className="text-lg text-muted-foreground">
-            Daily Revision is built around one idea: small, consistent practice beats last-minute cramming every time.
+            Atomic Solve is built around one idea: small, consistent practice beats last-minute cramming every time.
           </p>
         </div>
 
@@ -161,7 +161,7 @@ export function FeaturesSection() {
               </h3>
               <p className="text-muted-foreground text-base">
                 The progress dashboard shows exactly how each unit is going. The streak counter
-                makes daily revision feel like a habit worth protecting — not a chore.
+                makes daily practice feel like a habit worth protecting — not a chore.
               </p>
             </div>
 

@@ -38,7 +38,7 @@ export function HeroSection() {
 
           {/* Subheading */}
           <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            We make daily revision effortless so students stay on track and see real grade improvements.
+            We make daily practice effortless so students stay on track and see real grade improvements.
             Just 5 questions a day — consistent practice that builds confidence over time.
           </p>
 

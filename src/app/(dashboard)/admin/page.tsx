@@ -13,7 +13,7 @@ export default async function AdminPage() {
     <div className="px-4 lg:px-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight">Admin Panel</h1>
-        <p className="text-muted-foreground text-sm">Manage questions and content for Daily Revision.</p>
+        <p className="text-muted-foreground text-sm">Manage questions and content for Atomic Solve.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 max-w-3xl">

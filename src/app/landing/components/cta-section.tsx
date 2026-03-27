@@ -46,7 +46,7 @@ export function CTASection() {
                   </span>
                 </h2>
                 <p className="text-muted-foreground mx-auto max-w-2xl text-balance lg:text-xl">
-                  We make daily revision effortless so students stay on track and see real grade improvements.
+                  We make daily practice effortless so students stay on track and see real grade improvements.
                   Join students already building better habits — one day at a time.
                 </p>
               </div>

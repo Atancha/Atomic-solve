@@ -41,7 +41,7 @@ export function LandingNavbar() {
           <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Flame className="h-5 w-5" />
           </div>
-          <span className="font-bold text-lg">Daily Revision</span>
+          <span className="font-bold text-lg">Atomic Solve</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -89,7 +89,7 @@ export function LandingNavbar() {
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <Flame className="h-4 w-4" />
                   </div>
-                  <SheetTitle className="text-lg font-semibold">Daily Revision</SheetTitle>
+                  <SheetTitle className="text-lg font-semibold">Atomic Solve</SheetTitle>
                   <div className="ml-auto flex items-center gap-2">
                     <ModeToggle variant="ghost" />
                     <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-8 w-8">

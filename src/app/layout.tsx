@@ -7,8 +7,8 @@ import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { inter } from "@/lib/fonts";
 
 export const metadata: Metadata = {
-  title: "Daily Revision",
-  description: "Build a daily revision habit and improve your grades.",
+  title: "Atomic Solve",
+  description: "Build a daily study habit and improve your grades with Atomic Solve.",
 };
 
 export default function RootLayout({
