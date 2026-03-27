@@ -1,7 +1,6 @@
 import "server-only"
 import { PrismaClient } from "@prisma/client"
 import { PrismaNeon } from "@prisma/adapter-neon"
-import { neon } from "@neondatabase/serverless"
 
 declare global {
   // eslint-disable-next-line no-var
@@ -13,8 +12,7 @@ function createClient(): PrismaClient {
   if (!connectionString) {
     throw new Error("DATABASE_URL is not set.")
   }
-  const sql = neon(connectionString)
-  const adapter = new PrismaNeon(sql)
+  const adapter = new PrismaNeon({ connectionString })
   return new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
