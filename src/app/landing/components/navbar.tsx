@@ -17,7 +17,6 @@ import {
   SheetHeader,
   SheetTitle
 } from '@/components/ui/sheet'
-import { ModeToggle } from '@/components/mode-toggle'
 
 const navigationItems = [
   { name: 'Features', href: '#features' },
@@ -65,7 +64,6 @@ export function LandingNavbar() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex items-center gap-2">
-          <ModeToggle variant="ghost" />
           <Button variant="ghost" asChild className="cursor-pointer">
             <Link href="/sign-in">Sign In</Link>
           </Button>
@@ -91,7 +89,6 @@ export function LandingNavbar() {
                   </div>
                   <SheetTitle className="text-lg font-semibold">Atomic Solve</SheetTitle>
                   <div className="ml-auto flex items-center gap-2">
-                    <ModeToggle variant="ghost" />
                     <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-8 w-8">
                       <X className="h-4 w-4" />
                     </Button>
