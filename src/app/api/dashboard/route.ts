@@ -34,7 +34,7 @@ export async function GET() {
   })
 
   // If no progress yet, pick any unit from the user's grade
-  let suggestedUnit = progress[0]?.unit ?? null
+  let suggestedUnit: { id: string; title: string; grade: string } | null = progress[0]?.unit ?? null
   if (!suggestedUnit && user.grade) {
     const fallbackUnit = await db.unit.findFirst({ where: { grade: user.grade } })
     suggestedUnit = fallbackUnit ? { id: fallbackUnit.id, title: fallbackUnit.title, grade: fallbackUnit.grade } : null
