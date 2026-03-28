@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
   try {
     await updateStreak(user.id)
   } catch (e) {
-    console.error("updateStreak failed:", e)
+    console.error("[submit] updateStreak failed for userId:", user.id, e)
   }
 
   return NextResponse.json({

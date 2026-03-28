@@ -26,14 +26,19 @@ export async function GET() {
   // Streak
   const streak = await db.streak.findUnique({ where: { userId: user.id } })
 
-  // Progress — suggested unit (lowest completion)
+  // Progress — suggested unit (lowest completion among units in user's grade)
   const progress = await db.progress.findMany({
-    where: { userId: user.id },
+    where: { userId: user.id, unit: { grade: user.grade ?? undefined } },
     include: { unit: { select: { title: true, grade: true, id: true } } },
     orderBy: { completionPercentage: "asc" },
   })
 
-  const suggestedUnit = progress[0]?.unit ?? null
+  // If no progress yet, pick any unit from the user's grade
+  let suggestedUnit = progress[0]?.unit ?? null
+  if (!suggestedUnit && user.grade) {
+    const fallbackUnit = await db.unit.findFirst({ where: { grade: user.grade } })
+    suggestedUnit = fallbackUnit ? { id: fallbackUnit.id, title: fallbackUnit.title, grade: fallbackUnit.grade } : null
+  }
 
   // All-time accuracy
   const allAttempts = await db.attempt.count({ where: { userId: user.id } })

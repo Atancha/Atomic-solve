@@ -7,7 +7,6 @@ import { Level } from "@prisma/client"
 const schema = z.object({
   level: z.nativeEnum(Level),
   grade: z.string().min(1),
-  unitIds: z.array(z.string()).min(1, "Select at least one unit"),
 })
 
 export async function POST(req: NextRequest) {
@@ -20,19 +19,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
   }
 
-  const { level, grade, unitIds } = parsed.data
+  const { level, grade } = parsed.data
 
   // Update user profile
   const user = await db.user.update({
     where: { clerkId: userId },
     data: { level, grade, onboarded: true },
-  })
-
-  // Set selected units (replace any previous)
-  await db.userUnit.deleteMany({ where: { userId: user.id } })
-  await db.userUnit.createMany({
-    data: unitIds.map((unitId) => ({ userId: user.id, unitId })),
-    skipDuplicates: true,
   })
 
   // Initialise streak record

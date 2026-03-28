@@ -9,8 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
 
 const LEVELS = [
   { value: "PRIMARY", label: "Primary" },
@@ -27,44 +25,30 @@ const GRADES_BY_LEVEL: Record<string, string[]> = {
 const schema = z.object({
   level: z.enum(["PRIMARY", "HIGH_SCHOOL", "INTERNATIONAL"]),
   grade: z.string().min(1, "Select a grade"),
-  unitIds: z.array(z.string()).min(1, "Select at least one unit"),
 })
 
 type FormValues = z.infer<typeof schema>
 
-type Unit = { id: string; title: string; grade: string }
-
 export function OnboardingForm() {
   const router = useRouter()
-  const [units, setUnits] = useState<Unit[]>([])
   const [loading, setLoading] = useState(false)
   const [synced, setSynced] = useState(false)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { level: undefined, grade: "", unitIds: [] },
+    defaultValues: { level: undefined, grade: "" },
   })
 
   const level = form.watch("level")
-  const grade = form.watch("grade")
 
   // Sync user to DB on mount
   useEffect(() => {
     fetch("/api/user/sync", { method: "POST" }).then(() => setSynced(true))
   }, [])
 
-  // Fetch units when grade changes
-  useEffect(() => {
-    if (!level || !grade) { setUnits([]); return }
-    fetch(`/api/units?level=${level}&grade=${encodeURIComponent(grade)}`)
-      .then((r) => r.json())
-      .then((d) => setUnits(d.units ?? []))
-  }, [level, grade])
-
-  // Reset grade/units when level changes
+  // Reset grade when level changes
   useEffect(() => {
     form.setValue("grade", "")
-    form.setValue("unitIds", [])
   }, [level, form])
 
   async function onSubmit(data: FormValues) {
@@ -85,7 +69,7 @@ export function OnboardingForm() {
     <Card>
       <CardHeader>
         <CardTitle>Your Learning Profile</CardTitle>
-        <CardDescription>Choose your level, grade, and units to practise.</CardDescription>
+        <CardDescription>Choose your level and grade — we&apos;ll handle the rest.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -138,55 +122,6 @@ export function OnboardingForm() {
                   </FormItem>
                 )}
               />
-            )}
-
-            {/* Units */}
-            {grade && units.length > 0 && (
-              <FormField
-                control={form.control}
-                name="unitIds"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Units to Practise</FormLabel>
-                    <p className="text-muted-foreground text-xs mb-2">Select the topics you want daily questions from.</p>
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      {units.map((unit) => (
-                        <FormField
-                          key={unit.id}
-                          control={form.control}
-                          name="unitIds"
-                          render={({ field }) => (
-                            <FormItem className="flex items-center space-x-2 rounded-lg border p-3">
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(unit.id)}
-                                  onCheckedChange={(checked) => {
-                                    const current = field.value ?? []
-                                    field.onChange(
-                                      checked
-                                        ? [...current, unit.id]
-                                        : current.filter((id) => id !== unit.id)
-                                    )
-                                  }}
-                                />
-                              </FormControl>
-                              <FormLabel className="cursor-pointer font-normal text-sm leading-tight">
-                                {unit.title}
-                                <Badge variant="outline" className="ml-2 text-xs">{unit.grade}</Badge>
-                              </FormLabel>
-                            </FormItem>
-                          )}
-                        />
-                      ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
-            {grade && units.length === 0 && (
-              <p className="text-muted-foreground text-sm">No units found for this grade yet.</p>
             )}
 
             <Button type="submit" className="w-full" disabled={loading || !synced}>

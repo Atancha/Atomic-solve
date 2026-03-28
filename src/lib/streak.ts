@@ -15,6 +15,7 @@ export async function updateStreak(userId: string) {
     await db.streak.create({
       data: { userId, currentStreak: 1, longestStreak: 1, lastActiveDate: today },
     })
+    console.log("[streak] created new streak for", userId, "→ 1")
     return
   }
 
@@ -23,12 +24,15 @@ export async function updateStreak(userId: string) {
 
   if (last && last.getTime() === today.getTime()) {
     // Already recorded today — nothing to do
+    console.log("[streak] already recorded today for", userId, "streak stays at", streak.currentStreak)
     return
   }
 
   const isConsecutive = last !== null && last.getTime() === yesterday.getTime()
   const newCurrent = isConsecutive ? streak.currentStreak + 1 : 1
   const newLongest = Math.max(streak.longestStreak, newCurrent)
+
+  console.log("[streak] updating for", userId, "| last:", last?.toISOString() ?? "null", "| yesterday:", yesterday.toISOString(), "| consecutive:", isConsecutive, "| new streak:", newCurrent)
 
   await db.streak.update({
     where: { userId },
