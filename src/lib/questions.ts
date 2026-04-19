@@ -3,9 +3,9 @@ import { db } from "@/lib/db"
 const DAILY_LIMIT = 5
 
 export async function getDailyQuestions(userId: string) {
-  // Get user's grade
-  const user = await db.user.findUnique({ where: { id: userId }, select: { grade: true } })
-  if (!user?.grade) return []
+  // Get user's grade and level
+  const user = await db.user.findUnique({ where: { id: userId }, select: { grade: true, level: true } })
+  if (!user?.grade || !user?.level) return []
 
   // Questions already attempted today
   const todayStart = new Date()
@@ -36,10 +36,10 @@ export async function getDailyQuestions(userId: string) {
     accuracyMap.set(p.unitId, accuracy)
   }
 
-  // All questions for the user's grade, excluding already attempted today
+  // All questions for the user's grade + level, excluding already attempted today
   const allGradeQuestions = await db.question.findMany({
     where: {
-      unit: { grade: user.grade },
+      unit: { grade: user.grade, level: user.level },
       id: { notIn: [...attemptedTodayIds] },
     },
     include: { unit: { select: { title: true, grade: true } } },

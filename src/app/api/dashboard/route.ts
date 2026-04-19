@@ -28,15 +28,15 @@ export async function GET() {
 
   // Progress — suggested unit (lowest completion among units in user's grade)
   const progress = await db.progress.findMany({
-    where: { userId: user.id, unit: { grade: user.grade ?? undefined } },
+    where: { userId: user.id, unit: { grade: user.grade ?? undefined, level: user.level ?? undefined } },
     include: { unit: { select: { title: true, grade: true, id: true } } },
     orderBy: { completionPercentage: "asc" },
   })
 
-  // If no progress yet, pick any unit from the user's grade
+  // If no progress yet, pick any unit from the user's grade + level
   let suggestedUnit: { id: string; title: string; grade: string } | null = progress[0]?.unit ?? null
   if (!suggestedUnit && user.grade) {
-    const fallbackUnit = await db.unit.findFirst({ where: { grade: user.grade } })
+    const fallbackUnit = await db.unit.findFirst({ where: { grade: user.grade, level: user.level ?? undefined } })
     suggestedUnit = fallbackUnit ? { id: fallbackUnit.id, title: fallbackUnit.title, grade: fallbackUnit.grade } : null
   }
 
