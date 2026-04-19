@@ -38,12 +38,6 @@ const LEVELS = [
   { value: "INTERNATIONAL", label: "International" },
 ] as const
 
-const GRADES_BY_LEVEL: Record<string, string[]> = {
-  PRIMARY: ["Grade 6", "Grade 7", "Grade 10"],
-  HIGH_SCHOOL: ["Form 3", "Form 4"],
-  INTERNATIONAL: ["Grade 5", "Grade 6", "Grade 8", "Grade 9"],
-}
-
 const gradeSchema = z.object({
   level: z.enum(["PRIMARY", "HIGH_SCHOOL", "INTERNATIONAL"]),
   grade: z.string().min(1, "Select a grade"),
@@ -54,6 +48,7 @@ type GradeFormValues = z.infer<typeof gradeSchema>
 function GradeSettingsCard() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
+  const [gradesByLevel, setGradesByLevel] = useState<Record<string, string[]>>({})
 
   const form = useForm<GradeFormValues>({
     resolver: zodResolver(gradeSchema),
@@ -62,7 +57,7 @@ function GradeSettingsCard() {
 
   const level = form.watch("level")
 
-  // Load current values
+  // Load current values and available grades
   useEffect(() => {
     fetch("/api/user/profile")
       .then((r) => r.json())
@@ -70,6 +65,7 @@ function GradeSettingsCard() {
         if (d.level) form.setValue("level", d.level)
         if (d.grade) form.setValue("grade", d.grade)
       })
+    fetch("/api/grades").then((r) => r.json()).then(setGradesByLevel)
   }, [form])
 
   // Reset grade when level changes but only if user changed it (not on initial load)
@@ -97,7 +93,7 @@ function GradeSettingsCard() {
     }
   }
 
-  const grades = level ? GRADES_BY_LEVEL[level] ?? [] : []
+  const grades = level ? gradesByLevel[level] ?? [] : []
 
   return (
     <Card>

@@ -16,12 +16,6 @@ const LEVELS = [
   { value: "INTERNATIONAL", label: "International" },
 ] as const
 
-const GRADES_BY_LEVEL: Record<string, string[]> = {
-  PRIMARY: ["Grade 6", "Grade 7", "Grade 10"],
-  HIGH_SCHOOL: ["Form 3", "Form 4"],
-  INTERNATIONAL: ["Grade 5", "Grade 6", "Grade 8", "Grade 9"],
-}
-
 const schema = z.object({
   level: z.enum(["PRIMARY", "HIGH_SCHOOL", "INTERNATIONAL"]),
   grade: z.string().min(1, "Select a grade"),
@@ -33,6 +27,7 @@ export function OnboardingForm() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [synced, setSynced] = useState(false)
+  const [gradesByLevel, setGradesByLevel] = useState<Record<string, string[]>>({})
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -41,9 +36,10 @@ export function OnboardingForm() {
 
   const level = form.watch("level")
 
-  // Sync user to DB on mount
+  // Sync user to DB and load grades on mount
   useEffect(() => {
     fetch("/api/user/sync", { method: "POST" }).then(() => setSynced(true))
+    fetch("/api/grades").then((r) => r.json()).then(setGradesByLevel)
   }, [])
 
   // Reset grade when level changes
@@ -63,7 +59,7 @@ export function OnboardingForm() {
     if (res.ok) router.push("/dashboard")
   }
 
-  const grades = level ? GRADES_BY_LEVEL[level] ?? [] : []
+  const grades = level ? gradesByLevel[level] ?? [] : []
 
   return (
     <Card>
